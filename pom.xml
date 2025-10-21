@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.mustapha</groupId>
+    <artifactId>CineHub</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+
+        <!-- 1. Spring Core -->
+        <!-- Provides the core Spring functionality: IoC container, Bean management, Dependency Injection -->
+
+        <!-- 2. Spring JDBC -->
+        <!-- Required for managing DataSource and JDBC operations -->
+
+        <!-- 3. Spring ORM -->
+        <!-- Integrates Spring with ORM frameworks like Hibernate/JPA -->
+
+        <!-- 4. Spring Transaction Management -->
+        <!-- Enables declarative transaction management (important for database operations) -->
+
+        <!-- 5. Spring Data JPA -->
+        <!-- Provides easy-to-use Repository interfaces, automatic CRUD methods, and queries -->
+
+        <!-- 6. Hibernate (JPA implementation) -->
+        <!-- Implements the JPA specification: maps Java objects to database tables -->
+
+        <!-- 7. MySQL Connector -->
+        <!-- JDBC driver to connect your project with MySQL database -->
+
+        <!-- 8. Apache Commons DBCP2 (optional but recommended) -->
+        <!-- Provides connection pooling for DataSource to improve database performance -->
+
+        <!-- 9. JUnit 5 (optional, for testing) -->
+        <!-- For writing unit and integration tests -->
+
+    </dependencies>
+
+</project>
