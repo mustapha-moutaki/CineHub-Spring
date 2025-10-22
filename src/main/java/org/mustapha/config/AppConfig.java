@@ -1,39 +1,25 @@
-// ─────────────────────────────────────────────────────────────
-// AppConfig.java
-// ─────────────────────────────────────────────────────────────
-// This is the **root application configuration** class for Spring.
-// Why we need it:
-// - Defines general beans, services, and repository components for the entire application.
-// - Configures things like DataSource, EntityManagerFactory, TransactionManager, etc.
-// - It is the parent context of the web layer (WebMvcConfig).
-// How we use it:
-// - Annotate with @Configuration and optionally @EnableTransactionManagement.
-// - Define beans using @Bean methods for JPA, datasource, and service layer components.
-
-// we call here application.properties to get all sensitive database configuration info
-
 package org.mustapha.config;
+
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-
-import javax.sql.DataSource;
-import org.apache.commons.dbcp2.BasicDataSource;
-import jakarta.persistence.EntityManagerFactory;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import jakarta.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-
-
 @ComponentScan(basePackages = {"org.mustapha"})
 @EnableTransactionManagement
+@PropertySource("classpath:application.properties") // ✅ ADD THIS!
 public class AppConfig {
 
     @Value("${spring.datasource.url}")
@@ -77,7 +63,7 @@ public class AppConfig {
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.dialect", hibernateDialect);
         jpaProperties.put("hibernate.show_sql", showSql);
-        jpaProperties.put("hibernate.hbm2ddl.auto", ddlAuto);// responsible for create tables auto
+        jpaProperties.put("hibernate.hbm2ddl.auto", ddlAuto);
 
         emf.setJpaProperties(jpaProperties);
         return emf;
