@@ -1,31 +1,16 @@
-package org.mustapha.model;
+package org.mustapha.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Entity
-@Table(name = "categories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CategoryDTO {
     private Long id;
-
-    @NotBlank(message = "name is required")
     private String name;
-
-
     private String description;
-
-    @OneToMany(mappedBy = "category")
-    List<Movie>movieList;
 
     public Long getId() {
         return id;
@@ -49,13 +34,5 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<Movie> getMovieList() {
-        return movieList;
-    }
-
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
     }
 }
