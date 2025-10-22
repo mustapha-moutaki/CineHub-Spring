@@ -22,7 +22,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./target/cinehub.war:/usr/local/tomcat/webapps/ROOT.war
+      - ./target/CineHub-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war
     networks:
       - cinehub_network
 
