@@ -1,106 +1,61 @@
-//package org.mustapha.service.Impl;
-//
-//import org.mustapha.dto.MovieDTO;
-//import org.mustapha.mapper.MovieMapper;
-//import org.mustapha.model.Category;
-//import org.mustapha.model.Director;
-//import org.mustapha.model.Movie;
-//import org.mustapha.repositlry.MovieRepository;
-//import org.mustapha.service.MovieService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//@Service
-//@Transactional
-//public class MovieServiceImpl implements MovieService {
-//
-//    @Autowired
-//    private MovieRepository movieRepository;
-//
-////    @Autowired
-////    private DirectorRepository directorRepository;
-////
-////    @Autowired
-////    private CategoryRepository categoryRepository;
-//
-//    @Autowired
-//    private MovieMapper movieMapper;
-//
-//    @Override
-//    public MovieDTO save(MovieDTO dto) {
-//        // get director and category from db
-////        Director director = directorRepository.findById(dto.getDirectorId());
-////        Category category = categoryRepository.findById(dto.getCategoryId());
-//
-//        // convert DTO to Entity
-//        Movie movie = movieMapper.toEntity(dto);
-//
-////        movie.setDirector(director);
-////        movie.setCategory(category);
-//
-//        // save movie
-//        movieRepository.save(movie);
-//
-//        // convert Entity to Dto to return it to the interface
-//        return movieMapper.toDTO(movie);
-//    }
-//
-//    @Override
-//    public MovieDTO update(MovieDTO dto) {
-//        //get existed movie
-//        Movie existingMovie = movieRepository.findById(dto.getId());
-//        if (existingMovie == null) {
-//            throw new RuntimeException("Movie not found with id: " + dto.getId());
-//        }
-//
-//        // get director and categoru form db
-////        Director director = directorRepository.findById(dto.getDirectorId());
-////        Category category = categoryRepository.findById(dto.getCategoryId());
-//
-//        // convert DTO to Entity
-//        Movie movieToUpdate = movieMapper.toEntity(dto);
-//
-//
-//        movieToUpdate.setId(existingMovie.getId()); // important to update
-////        movieToUpdate.setDirector(director);
-////        movieToUpdate.setCategory(category);
-//
-//        //dave upate
-//        movieRepository.save(movieToUpdate);
-//
-//        //Convert Entity to DTO and return it to ui
-//        return movieMapper.toDTO(movieToUpdate);
-//    }
-//
-//
-//    @Override
-//    public void delete(Long id) {
-//        movieRepository.delete(id);
-//    }
-//
-//
-//    @Override
-//    public MovieDTO findById(Long id) {
-//        Movie movie = movieRepository.findById(id);
-//        return movieMapper.toDTO(movie);
-//    }
-//
-//    @Override
-//    public List<MovieDTO> findAll() {
-//        return movieRepository.findAll()
-//                .stream()
-//                .map(movieMapper::toDTO)
-//                .collect(Collectors.toList());
-//    }
-//
-//
-//
-//
-//
-//
-//
-//}
+package org.mustapha.service.Impl;
+
+import org.mustapha.dto.MovieDTO;
+import org.mustapha.mapper.MovieMapper;
+import org.mustapha.model.Movie;
+import org.mustapha.repository.MovieRepository;
+import org.mustapha.service.MovieService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional
+public class MovieServiceImpl implements MovieService {
+
+    private final MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
+
+    public MovieServiceImpl(MovieRepository movieRepository, MovieMapper movieMapper) {
+        this.movieRepository = movieRepository;
+        this.movieMapper = movieMapper;
+    }
+
+    @Override
+    public MovieDTO save(MovieDTO dto) {
+        Movie movie = movieMapper.toEntity(dto);
+        Movie saved = movieRepository.save(movie);
+        return movieMapper.toDTO(saved);
+    }
+
+    @Override
+    public MovieDTO update(MovieDTO dto) {
+        Movie existing = movieRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("Movie not found with id: " + dto.getId()));
+        // Update fields here
+        Movie updated = movieRepository.save(existing);
+        return movieMapper.toDTO(updated);
+    }
+
+    @Override
+    public void delete(Long id) {
+        movieRepository.deleteById(id);
+    }
+
+    @Override
+    public MovieDTO findById(Long id) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
+        return movieMapper.toDTO(movie);
+    }
+
+    @Override
+    public List<MovieDTO> findAll() {
+        return movieRepository.findAll()
+                .stream()
+                .map(movieMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+}

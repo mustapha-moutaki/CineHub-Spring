@@ -1,15 +1,16 @@
 package org.mustapha.mapper;
 
-import org.mapstruct.Mapper;
 import org.mustapha.dto.CategoryDTO;
 import org.mustapha.model.Category;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    // Convert DTO to Entity
-    Category toEntity(CategoryDTO dto);
+    CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
-    // Convert Entity to DTO
     CategoryDTO toDTO(Category category);
+
+    Category toEntity(CategoryDTO categoryDTO);
 }

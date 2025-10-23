@@ -1,10 +1,10 @@
 package org.mustapha.repository;
 
-import org.mustapha.model.Category;
+import org.mustapha.model.Director;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-    boolean existsByName(String name);
+public interface DirectorRepository extends JpaRepository<Director, Long> {
+
 }
