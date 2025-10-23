@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.w3c.dom.Text;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,25 +13,33 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Director {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String firstname;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-    @Column(nullable = false)
-    private String lastname;
-
-    @Column(nullable = false)
+    @Column(length = 100)
     private String nationality;
-    private Date birthDate;
+
+    @Column(length = 1000)
     private String biography;
 
-    @OneToMany(mappedBy = "director")
-    List<Movie> movieList;
+    // The mappedBy value MUST match the field name in Movie class
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Movie> movieList = new ArrayList<>();
 
+    // Helper methods
+    public void addMovie(Movie movie) {
+        movieList.add(movie);
+        movie.setDirector(this);
+    }
+
+    public void removeMovie(Movie movie) {
+        movieList.remove(movie);
+        movie.setDirector(null);
+    }
 }
