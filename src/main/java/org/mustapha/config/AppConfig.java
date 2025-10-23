@@ -1,76 +1,75 @@
 package org.mustapha.config;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Value;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import jakarta.persistence.EntityManagerFactory;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = {"org.mustapha"})
+@ComponentScan(basePackages = "org.mustapha")
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties") // ✅ ADD THIS!
+@EnableJpaRepositories(basePackages = "org.mustapha.repository")
+@PropertySource("classpath:application.properties")
 public class AppConfig {
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
-
-    @Value("${spring.datasource.username}")
-    private String dbUser;
-
-    @Value("${spring.datasource.password}")
-    private String dbPassword;
-
-    @Value("${spring.datasource.driver-class-name}")
-    private String dbDriver;
-
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String ddlAuto;
-
-    @Value("${spring.jpa.show-sql}")
-    private boolean showSql;
-
-    @Value("${spring.jpa.properties.hibernate.dialect}")
-    private String hibernateDialect;
+    @Autowired
+    private Environment env;
 
     @Bean
     public DataSource dataSource() {
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName(dbDriver);
-        ds.setUrl(dbUrl);
-        ds.setUsername(dbUser);
-        ds.setPassword(dbPassword);
-        return ds;
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
+        hikariConfig.setJdbcUrl(env.getProperty("spring.datasource.url"));
+        hikariConfig.setUsername(env.getProperty("spring.datasource.username"));
+        hikariConfig.setPassword(env.getProperty("spring.datasource.password"));
+        hikariConfig.setMinimumIdle(5);
+        hikariConfig.setMaximumPoolSize(10);
+        hikariConfig.setConnectionTimeout(30000);
+        hikariConfig.setIdleTimeout(600000);
+        hikariConfig.setMaxLifetime(1800000);
+        return new HikariDataSource(hikariConfig);
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource);
-        emf.setPackagesToScan("org.mustapha.model");
-        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource());
+        em.setPackagesToScan("org.mustapha.model");
 
-        Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.dialect", hibernateDialect);
-        jpaProperties.put("hibernate.show_sql", showSql);
-        jpaProperties.put("hibernate.hbm2ddl.auto", ddlAuto);
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(hibernateProperties());
 
-        emf.setJpaProperties(jpaProperties);
-        return emf;
+        return em;
+    }
+
+    private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
+        properties.setProperty("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
+        properties.setProperty("hibernate.show_sql", env.getProperty("spring.jpa.show-sql"));
+        properties.setProperty("hibernate.format_sql", env.getProperty("spring.jpa.properties.hibernate.format_sql"));
+        return properties;
     }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
     }
 }

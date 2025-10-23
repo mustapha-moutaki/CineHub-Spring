@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
-         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
-         version="6.0">
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
 
-    <display-name>CineHub Application</display-name>
+    <!-- No need to define DispatcherServlet explicitly here if using AppInitializer -->
+    <!-- This web.xml primarily serves to trigger ServletContainerInitializer -->
+    <!-- Spring's WebApplicationInitializer is picked up automatically by ServletContainerInitializer -->
+    <!-- This file can be mostly empty, but sometimes presence of any web.xml helps -->
 
-    <!-- Root Application Context -->
-    <context-param>
-        <param-name>contextClass</param-name>
-        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </context-param>
+    <display-name>CineHub Spring Web App</display-name>
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>org.mustapha.config.AppConfig</param-value>
-    </context-param>
-
-    <!-- Spring Context Loader Listener -->
-    <listener>
+    <!-- Context Listener (Optional, AppConfig will be handled by AppInitializer) -->
+    <!-- <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            org.mustapha.config.AppConfig
+        </param-value>
+    </context-param> -->
 
-    <!-- Spring MVC DispatcherServlet -->
-    <servlet>
+    <!-- DispatcherServlet (Optional, AppInitializer handles this) -->
+    <!-- <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextClass</param-name>
-            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-        </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>org.mustapha.config.WebMvcConfig</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping> -->
 
 </web-app>

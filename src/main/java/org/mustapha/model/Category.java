@@ -1,36 +1,42 @@
 package org.mustapha.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
-
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idCategory;
 
-    @NotBlank(message = "name is required")
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String name; // nom de la catégorie (Action, Drame, Comédie, Horreur, Science-Fiction, Romance...)
 
+    @Column(length = 500)
+    private String description; // description de la catégorie
 
-    private String description;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Movie> films = new HashSet<>(); // liste des films de cette catégorie
 
-    @OneToMany(mappedBy = "category")
-    List<Movie>movieList;
-
-    public Long getId() {
-        return id;
+    // Constructors
+    public Category() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    // Getters and Setters
+    public Long getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(Long idCategory) {
+        this.idCategory = idCategory;
     }
 
     public String getName() {
@@ -49,11 +55,32 @@ public class Category {
         this.description = description;
     }
 
-    public List<Movie> getMovieList() {
-        return movieList;
+    public Set<Movie> getFilms() {
+        return films;
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
+    public void setFilms(Set<Movie> films) {
+        this.films = films;
+    }
+
+//    // Add a film to the category
+//    public void addFilm(Movie film) {
+//        this.films.add(film);
+//        film.setCategory(this);
+//    }
+//
+//    // Remove a film from the category
+//    public void removeFilm(Movie film) {
+//        this.films.remove(film);
+//        film.setCategory(null);
+//    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "idCategory=" + idCategory +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

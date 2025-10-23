@@ -1,33 +1,41 @@
+version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql-cinehub
+    container_name: cinehub_mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: cinehub_db
       MYSQL_USER: user
       MYSQL_PASSWORD: usr
     ports:
-      - "3308:3306"   # host port 3308 → container 3306
+      - "3306:3306"
     volumes:
-      - cinehub_mysql_data:/var/lib/mysql
-    networks:
-      - cinehub_network
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  tomcat:
-    build: .
-    container_name: tomcat-cinehub
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinehub_spring_app
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_NAME: cinehub_db
+      DB_USER: user
+      DB_PASSWORD: usr
     volumes:
-      - ./target/CineHub-1.0-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war
-    networks:
-      - cinehub_network
+      - ./src/main/resources/application.properties:/usr/local/tomcat/webapps/mustapha-moutaki-cinehub-spring/WEB-INF/classes/application.properties
+    restart: on-failure
 
 volumes:
-  cinehub_mysql_data:
-
-networks:
-  cinehub_network:
+  mysql_data:

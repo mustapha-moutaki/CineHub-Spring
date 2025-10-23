@@ -6,16 +6,16 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{ AppConfig.class };
+        return new Class[] { AppConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ WebMvcConfig.class };
+        return new Class[] { WebMvcConfig.class };
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{ "/" };
+        return new String[] { "/api/*" }; // All requests starting with /api will be handled by DispatcherServlet
     }
 }

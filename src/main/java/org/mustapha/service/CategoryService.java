@@ -1,16 +1,14 @@
 package org.mustapha.service;
 
 import org.mustapha.dto.CategoryDTO;
-import org.mustapha.dto.MovieDTO;
-import org.mustapha.model.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
-    CategoryDTO save(CategoryDTO dto);
-    CategoryDTO update(CategoryDTO dto);
-    void delete(Long id);
-    CategoryDTO findById(Long id);
-    List<CategoryDTO>findAll();
-
+    List<CategoryDTO> findAllCategories();
+    Optional<CategoryDTO> findCategoryById(Long id);
+    CategoryDTO saveCategory(CategoryDTO categoryDTO);
+    CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO);
+    void deleteCategory(Long id);
 }

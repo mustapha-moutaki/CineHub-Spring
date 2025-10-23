@@ -1,23 +1,29 @@
 package org.mustapha.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Objects;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class CategoryDTO {
-    private Long id;
+    private Long idCategory;
     private String name;
     private String description;
 
-    public Long getId() {
-        return id;
+    // Constructors
+    public CategoryDTO() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public CategoryDTO(Long idCategory, String name, String description) {
+        this.idCategory = idCategory;
+        this.name = name;
+        this.description = description;
+    }
+
+    // Getters and Setters
+    public Long getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(Long idCategory) {
+        this.idCategory = idCategory;
     }
 
     public String getName() {
@@ -34,5 +40,27 @@ public class CategoryDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryDTO that = (CategoryDTO) o;
+        return Objects.equals(idCategory, that.idCategory) && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCategory, name, description);
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryDTO{" +
+                "idCategory=" + idCategory +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
