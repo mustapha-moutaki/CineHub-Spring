@@ -30,9 +30,10 @@ public class AppConfig {
 
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3308/cinehub_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
+        ds.setUrl("jdbc:mysql://mysql:3306/cinehub_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
         ds.setUsername("user");
         ds.setPassword("usr");
+
 
         // Connection pool settings
         ds.setInitialSize(2);
@@ -51,7 +52,7 @@ public class AppConfig {
         System.out.println("=== Testing Database Connection ===");
 
         try {
-            String baseUrl = "jdbc:mysql://127.0.0.1:3308/?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+            String baseUrl = "jdbc:mysql://mysql:3306/cinehub_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             var conn = DriverManager.getConnection(baseUrl, "user", "usr");
             System.out.println("✓ Connection to MySQL server SUCCESSFUL");
 
