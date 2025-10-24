@@ -31,5 +31,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findByRatingGreaterThanEqual(double rating);
 
 
+    List<Movie> findByCategory_Id(Long categoryId);
 
 }

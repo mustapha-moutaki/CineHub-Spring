@@ -78,5 +78,11 @@
             return ResponseEntity.ok(movies);
         }
 
+        @GetMapping("/category/{categoryId}")
+        public ResponseEntity<List<MovieDTO>> getMoviesByCategory(@PathVariable("categoryId") Long categoryId) {
+            List<MovieDTO> movies = movieService.findMoviesByCategory(categoryId);
+            return ResponseEntity.ok(movies);
+        }
+
 
     }

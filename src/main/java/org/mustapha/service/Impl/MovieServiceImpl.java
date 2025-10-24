@@ -91,5 +91,12 @@ public class MovieServiceImpl implements MovieService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<MovieDTO> findMoviesByCategory(Long categoryId) {
+        List<Movie> movies = movieRepository.findByCategory_Id(categoryId);
+        return movies.stream()
+                .map(movieMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
 }

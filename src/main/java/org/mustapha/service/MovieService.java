@@ -19,4 +19,7 @@ public interface MovieService {
     public List<MovieDTO> filterByYear(int year);
 
     List<MovieDTO> filterByMinRating(double rating);
+
+    List<MovieDTO> findMoviesByCategory(Long categoryId);
+
 }
