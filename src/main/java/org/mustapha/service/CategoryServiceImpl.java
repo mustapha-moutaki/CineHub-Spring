@@ -1,4 +1,4 @@
-package org.mustapha.service.Impl;
+package org.mustapha.service;
 
 import org.mustapha.dto.CategoryDTO;
 import org.mustapha.mapper.CategoryMapper;
