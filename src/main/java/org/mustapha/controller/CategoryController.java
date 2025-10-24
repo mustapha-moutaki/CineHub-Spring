@@ -3,10 +3,15 @@ package org.mustapha.controller;
 import jakarta.validation.Valid;
 import org.mustapha.dto.CategoryDTO;
 import org.mustapha.service.CategoryService;
+import org.mustapha.utilis.InputValidation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -21,14 +26,22 @@ public class CategoryController {
 
     // add new category
     @PostMapping
-    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO ,BindingResult result) {
+
+        if(result.hasErrors()){
+            return  ResponseEntity.badRequest().body(InputValidation.getValidationErrors(result));
+        }
+
         CategoryDTO saved = categoryService.save(categoryDTO);
         return ResponseEntity.ok(saved);
     }
 
 //    update category
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable("id")  Long id, @Valid @RequestBody CategoryDTO dto) {
+    public ResponseEntity<?> updateCategory(@PathVariable("id")  Long id, @Valid @RequestBody CategoryDTO dto,BindingResult result) {
+        if(result.hasErrors()){
+            return  ResponseEntity.badRequest().body(InputValidation.getValidationErrors(result));
+        }
         dto.setId(id);
         CategoryDTO updated = categoryService.update(dto);
         return ResponseEntity.ok(updated);
@@ -36,14 +49,18 @@ public class CategoryController {
 
     // delete category
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id, BindingResult result) {
+        if(result.hasErrors()){
+            return  ResponseEntity.badRequest().body(InputValidation.getValidationErrors(result));
+        }
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     // get by id
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategory(@PathVariable("id")  Long id) {
+    public ResponseEntity<?> getCategory(@PathVariable("id")  Long id) {
+
         CategoryDTO category = categoryService.findById(id);
         return ResponseEntity.ok(category);
     }

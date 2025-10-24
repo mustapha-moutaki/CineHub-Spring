@@ -56,4 +56,11 @@
             List<MovieDTO> movies = movieService.findAll();
             return ResponseEntity.ok(movies);
         }
+
+        // serach by title
+        @GetMapping("/movies/search")
+        public ResponseEntity<List<MovieDTO>> searchMoviesByTitle(@RequestParam("title") String title) {
+            List<MovieDTO> movies = movieService.searchByTitle(title);
+            return ResponseEntity.ok(movies);
+        }
     }

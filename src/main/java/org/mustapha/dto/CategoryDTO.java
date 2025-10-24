@@ -1,14 +1,17 @@
 package org.mustapha.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
 
 public class CategoryDTO {
-    private Long id;
-    private String name;
-    private String description;
 
+    private Long id;
+
+    @NotBlank(message = "The name is required")
+    @Size(min = 2, max = 50, message = "The name must be between 2 and 50 characters")
+    private String name;
+
+    @Size(max = 255, message = "The description cannot exceed 255 characters")
+    private String description;
 
     public CategoryDTO() {
     }

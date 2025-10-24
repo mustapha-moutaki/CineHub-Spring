@@ -3,7 +3,9 @@ package org.mustapha.controller;
 import jakarta.validation.Valid;
 import org.mustapha.dto.DirectorDTO;
 import org.mustapha.service.DirectorService;
+import org.mustapha.utilis.InputValidation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +22,20 @@ public class DirectorController {
 
     //  Add new director
     @PostMapping
-    public ResponseEntity<DirectorDTO> createDirector(@Valid @RequestBody DirectorDTO directorDTO) {
+    public ResponseEntity<?> createDirector(@Valid @RequestBody DirectorDTO directorDTO, BindingResult result) {
+        if(result.hasErrors()){
+            return  ResponseEntity.badRequest().body(InputValidation.getValidationErrors(result));
+        }
         DirectorDTO saved = directorService.save(directorDTO);
         return ResponseEntity.ok(saved);
     }
 
     // Update director
     @PutMapping("/{id}")
-    public ResponseEntity<DirectorDTO> updateDirector(
-            @PathVariable("id") Long id,
-            @Valid @RequestBody DirectorDTO directorDTO) {
-
+    public ResponseEntity<?> updateDirector(@PathVariable("id") Long id, @Valid @RequestBody DirectorDTO directorDTO, BindingResult result) {
+        if(result.hasErrors()){
+            return  ResponseEntity.badRequest().body(InputValidation.getValidationErrors(result));
+        }
         directorDTO.setId(id);
         DirectorDTO updated = directorService.update(directorDTO);
         return ResponseEntity.ok(updated);

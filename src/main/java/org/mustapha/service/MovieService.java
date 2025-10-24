@@ -14,4 +14,5 @@ public interface MovieService {
     MovieDTO findById(Long id);
 
     List<MovieDTO> findAll();
+    List<MovieDTO> searchByTitle(String title);
 }
