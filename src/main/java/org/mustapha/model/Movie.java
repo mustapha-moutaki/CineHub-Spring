@@ -30,8 +30,7 @@
         @Column
         private Integer duration; // in minutes
 
-        @Column(length = 50)
-        private String genre;
+        private int rating;
 
         @Column(length = 500)
         private String posterUrl;
@@ -49,13 +48,13 @@
         public Movie() {
         }
 
-        public Movie(Long id, String title, String description, LocalDate releaseDate, Integer duration, String genre, String posterUrl, Director director, Category category) {
+        public Movie(Long id, String title, String description,int rating, LocalDate releaseDate, Integer duration, String genre, String posterUrl, Director director, Category category) {
             this.id = id;
             this.title = title;
             this.description = description;
             this.releaseDate = releaseDate;
             this.duration = duration;
-            this.genre = genre;
+            this.rating = rating;
             this.posterUrl = posterUrl;
             this.director = director;
             this.category = category;
@@ -102,12 +101,12 @@
             this.duration = duration;
         }
 
-        public String getGenre() {
-            return genre;
+        public int getRating() {
+            return rating;
         }
 
-        public void setGenre(String genre) {
-            this.genre = genre;
+        public void setRating(int rating) {
+            this.rating = rating;
         }
 
         public String getPosterUrl() {
@@ -142,7 +141,7 @@
                     ", description='" + description + '\'' +
                     ", releaseDate=" + releaseDate +
                     ", duration=" + duration +
-                    ", genre='" + genre + '\'' +
+                    ", genre='" + rating + '\'' +
                     ", posterUrl='" + posterUrl + '\'' +
                     ", director=" + director +
                     ", category=" + category +

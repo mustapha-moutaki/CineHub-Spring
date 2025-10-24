@@ -19,6 +19,11 @@ public class MovieDTO {
 
     private Double duration;
 
+    private String description;
+    private String posterUrl;
+
+    private int rating;
+
     @NotNull
     private Long directorId; // jsut the id of didrector
 
@@ -28,11 +33,14 @@ public class MovieDTO {
     public MovieDTO() {
     }
 
-    public MovieDTO(Long id, String title, LocalDate releaseDate, Double duration, Long directorId, Long categoryId) {
+    public MovieDTO(Long id, String title, LocalDate releaseDate, Double duration, String description, String posterUrl, int rating, Long directorId, Long categoryId) {
         this.id = id;
         this.title = title;
         this.releaseDate = releaseDate;
         this.duration = duration;
+        this.description = description;
+        this.posterUrl = posterUrl;
+        this.rating = rating;
         this.directorId = directorId;
         this.categoryId = categoryId;
     }
@@ -83,5 +91,29 @@ public class MovieDTO {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 }
