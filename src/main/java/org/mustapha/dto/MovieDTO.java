@@ -4,17 +4,18 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 //@Data
 public class MovieDTO {
 
 
     private Long id; // usefull in update
 
-    @NotNull
-    @Size(min = 1, max = 255)
+
     private String title;
 
-    private int publishedYear;
+    private LocalDate releaseDate;
 
     private Double duration;
 
@@ -27,10 +28,10 @@ public class MovieDTO {
     public MovieDTO() {
     }
 
-    public MovieDTO(Long id, String title, int publishedYear, Double duration, Long directorId, Long categoryId) {
+    public MovieDTO(Long id, String title, LocalDate releaseDate, Double duration, Long directorId, Long categoryId) {
         this.id = id;
         this.title = title;
-        this.publishedYear = publishedYear;
+        this.releaseDate = releaseDate;
         this.duration = duration;
         this.directorId = directorId;
         this.categoryId = categoryId;
@@ -52,12 +53,12 @@ public class MovieDTO {
         this.title = title;
     }
 
-    public int getPublishedYear() {
-        return publishedYear;
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setPublishedYear(int publishedYear) {
-        this.publishedYear = publishedYear;
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Double getDuration() {

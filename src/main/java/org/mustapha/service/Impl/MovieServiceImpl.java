@@ -34,10 +34,18 @@ public class MovieServiceImpl implements MovieService {
     public MovieDTO update(MovieDTO dto) {
         Movie existing = movieRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Movie not found with id: " + dto.getId()));
-        // Update fields here
+
+
+        existing.setTitle(dto.getTitle());
+        existing.setDuration(dto.getDuration() != null ? dto.getDuration().intValue() : null);
+
+        existing.setDirector(movieMapper.mapDirector(dto.getDirectorId()));
+        existing.setCategory(movieMapper.mapCategory(dto.getCategoryId()));
+
         Movie updated = movieRepository.save(existing);
         return movieMapper.toDTO(updated);
     }
+
 
     @Override
     public void delete(Long id) {
