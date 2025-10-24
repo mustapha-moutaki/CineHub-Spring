@@ -58,9 +58,11 @@
         }
 
         // serach by title
-        @GetMapping("/movies/search")
+        @GetMapping("/search")
         public ResponseEntity<List<MovieDTO>> searchMoviesByTitle(@RequestParam("title") String title) {
+            System.out.println("Searching for: " + title);
             List<MovieDTO> movies = movieService.searchByTitle(title);
             return ResponseEntity.ok(movies);
         }
+
     }
