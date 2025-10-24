@@ -22,6 +22,19 @@ public class DirectorDTO {
 
     private String biography;
 
+
+    public DirectorDTO() {
+    }
+
+    public DirectorDTO(Long id, String firstName, String lastName, String nationality, LocalDate birthDate, String biography) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nationality = nationality;
+        this.birthDate = birthDate;
+        this.biography = biography;
+    }
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

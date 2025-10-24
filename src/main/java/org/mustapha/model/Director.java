@@ -10,9 +10,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "directors")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class Director {
 
     @Id
@@ -32,14 +32,52 @@ public class Director {
     @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Movie> movieList = new ArrayList<>();
 
-    // Helper methods
-    public void addMovie(Movie movie) {
-        movieList.add(movie);
-        movie.setDirector(this);
+    public Director(){}
+    public Director(Long id, String name, String nationality, String biography, List<Movie> movieList) {
+        this.id = id;
+        this.name = name;
+        this.nationality = nationality;
+        this.biography = biography;
+        this.movieList = movieList;
     }
 
-    public void removeMovie(Movie movie) {
-        movieList.remove(movie);
-        movie.setDirector(null);
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public List<Movie> getMovieList() {
+        return movieList;
+    }
+
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
     }
 }
