@@ -49,10 +49,24 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
 
-    @Override
-    public void delete(Long id) {
-        directorRepository.deleteById(id);
+//    @Override
+//    public void delete(Long id) {
+//        directorRepository.deleteById(id);
+//    }
+// u can delete director has movies
+@Override
+@Transactional
+public void delete(Long id) {
+    Director director = directorRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Director not found"));
+
+    if (!director.getMovieList().isEmpty()) {
+        throw new RuntimeException("Cannot delete this director because he has movies assigned.");
     }
+
+    directorRepository.delete(director);
+}
+
 
     @Override
     public DirectorDTO findById(Long id) {

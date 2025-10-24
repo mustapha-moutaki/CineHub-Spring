@@ -34,7 +34,7 @@ public class Director {
 
     private LocalDate birthDate;
     // The mappedBy value MUST match the field name in Movie class
-    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Movie> movieList = new ArrayList<>();
 
     public Director(){}
