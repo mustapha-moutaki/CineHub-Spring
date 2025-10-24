@@ -74,4 +74,22 @@ public class MovieServiceImpl implements MovieService {
                 .map(movieMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<MovieDTO> filterByYear(int year) {
+        return movieRepository.findByReleaseYear(year)
+                .stream()
+                .map(movieMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MovieDTO> filterByMinRating(double rating) {
+        return movieRepository.findByRatingGreaterThanEqual(rating)
+                .stream()
+                .map(movieMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+
 }

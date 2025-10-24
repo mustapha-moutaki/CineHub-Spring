@@ -65,4 +65,18 @@
             return ResponseEntity.ok(movies);
         }
 
+        // filter by the year
+        @GetMapping("/filter/byYear")
+        public ResponseEntity<List<MovieDTO>> filterMoviesByYear(@RequestParam("year") int year) {
+            List<MovieDTO> movies = movieService.filterByYear(year);
+            return ResponseEntity.ok(movies);
+        }
+
+        @GetMapping("/filter/byMinRating")
+        public ResponseEntity<List<MovieDTO>> filterMoviesByMinRating(@RequestParam("rating") double rating) {
+            List<MovieDTO> movies = movieService.filterByMinRating(rating);
+            return ResponseEntity.ok(movies);
+        }
+
+
     }

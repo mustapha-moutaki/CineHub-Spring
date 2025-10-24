@@ -15,4 +15,8 @@ public interface MovieService {
 
     List<MovieDTO> findAll();
     List<MovieDTO> searchByTitle(String title);
+
+    public List<MovieDTO> filterByYear(int year);
+
+    List<MovieDTO> filterByMinRating(double rating);
 }
