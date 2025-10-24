@@ -60,4 +60,12 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(categoryMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<CategoryDTO> searchByName(String name) {
+        return categoryRepository.findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(categoryMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }

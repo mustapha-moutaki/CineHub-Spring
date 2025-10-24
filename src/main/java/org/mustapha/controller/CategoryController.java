@@ -49,10 +49,7 @@ public class CategoryController {
 
     // delete category
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id, BindingResult result) {
-        if(result.hasErrors()){
-            return  ResponseEntity.badRequest().body(InputValidation.getValidationErrors(result));
-        }
+    public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -71,4 +68,12 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.findAll();
         return ResponseEntity.ok(categories);
     }
+
+    // search by name
+    @GetMapping("/search")
+    public ResponseEntity<List<CategoryDTO>> searchCategoriesByName(@RequestParam("name") String name) {
+        List<CategoryDTO> categories = categoryService.searchByName(name);
+        return ResponseEntity.ok(categories);
+    }
+
 }
