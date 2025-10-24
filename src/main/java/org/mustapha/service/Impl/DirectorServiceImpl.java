@@ -68,4 +68,12 @@ public class DirectorServiceImpl implements DirectorService {
                 .map(directorMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<DirectorDTO> searchByFirstName(String firstName) {
+        return directorRepository.findByFirstNameContainingIgnoreCase(firstName)
+                .stream()
+                .map(directorMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
 }

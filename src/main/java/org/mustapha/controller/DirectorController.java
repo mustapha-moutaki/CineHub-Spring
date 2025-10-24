@@ -61,4 +61,13 @@ public class DirectorController {
         List<DirectorDTO> directors = directorService.findAll();
         return ResponseEntity.ok(directors);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<DirectorDTO>> searchDirectorsByFirstName(
+            @RequestParam("firstName") String firstName) {
+
+        List<DirectorDTO> directors = directorService.searchByFirstName(firstName);
+        return ResponseEntity.ok(directors);
+    }
+
 }

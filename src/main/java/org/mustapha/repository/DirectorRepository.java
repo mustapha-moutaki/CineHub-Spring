@@ -11,4 +11,6 @@ public interface DirectorRepository extends JpaRepository<Director, Long> {
 //    @Query("SELECT d FROM Director d WHERE d.firstName LIKE %:name% OR d.lastName LIKE %:name%")
 //    List<Director> findByNameContaining(@Param("name") String name);
 //    List<Director> findByNationality(String nationality);
+List<Director> findByFirstNameContainingIgnoreCase(String firstName);
+
 }

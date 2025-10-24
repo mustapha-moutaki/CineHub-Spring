@@ -9,4 +9,5 @@ public interface DirectorService {
     void delete(Long id);
     DirectorDTO findById(Long id);
     List<DirectorDTO> findAll();
+    List<DirectorDTO> searchByFirstName(String firstName);
 }
