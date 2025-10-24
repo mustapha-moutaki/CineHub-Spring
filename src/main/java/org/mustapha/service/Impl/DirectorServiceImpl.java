@@ -34,10 +34,20 @@ public class DirectorServiceImpl implements DirectorService {
     public DirectorDTO update(DirectorDTO dto) {
         Director existing = directorRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Director not found with id: " + dto.getId()));
-        // Update fields here
+
+        // from filed to entity
+        existing.setFirstName(dto.getFirstName());
+        existing.setLastName(dto.getLastName());
+        existing.setNationality(dto.getNationality());
+        existing.setBirthDate(dto.getBirthDate());
+        existing.setBiography(dto.getBiography());
+
+        // save in db
         Director updated = directorRepository.save(existing);
+
         return directorMapper.toDTO(updated);
     }
+
 
     @Override
     public void delete(Long id) {

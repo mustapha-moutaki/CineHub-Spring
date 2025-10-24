@@ -128,6 +128,7 @@
             <version>1.5.5.Final</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
@@ -160,6 +161,12 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.10.0</version>
             <scope>test</scope>
+        </dependency>
+<!--addef to hundle localDAte-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.20.0</version>
         </dependency>
     </dependencies>
 
