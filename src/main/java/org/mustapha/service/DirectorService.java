@@ -1,6 +1,8 @@
 package org.mustapha.service;
 
 import org.mustapha.dto.DirectorDTO;
+import org.mustapha.dto.MovieDTO;
+
 import java.util.List;
 
 public interface DirectorService {
@@ -10,4 +12,7 @@ public interface DirectorService {
     DirectorDTO findById(Long id);
     List<DirectorDTO> findAll();
     List<DirectorDTO> searchByFirstName(String firstName);
+
+    List<MovieDTO> findMoviesByDirector(Long directorId);
+
 }

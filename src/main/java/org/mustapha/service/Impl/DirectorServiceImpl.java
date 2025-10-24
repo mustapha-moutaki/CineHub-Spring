@@ -1,13 +1,14 @@
 package org.mustapha.service.Impl;
 
 import org.mustapha.dto.DirectorDTO;
+import org.mustapha.dto.MovieDTO;
 import org.mustapha.mapper.DirectorMapper;
 import org.mustapha.model.Director;
 import org.mustapha.repository.DirectorRepository;
 import org.mustapha.service.DirectorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.mustapha.mapper.MovieMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +18,12 @@ public class DirectorServiceImpl implements DirectorService {
 
     private final DirectorRepository directorRepository;
     private final DirectorMapper directorMapper;
+    private final MovieMapper movieMapper;
 
-    public DirectorServiceImpl(DirectorRepository directorRepository, DirectorMapper directorMapper) {
+    public DirectorServiceImpl(DirectorRepository directorRepository, DirectorMapper directorMapper, MovieMapper movieMapper) {
         this.directorRepository = directorRepository;
         this.directorMapper = directorMapper;
+        this.movieMapper = movieMapper;
     }
 
     @Override
@@ -54,6 +57,8 @@ public class DirectorServiceImpl implements DirectorService {
 //        directorRepository.deleteById(id);
 //    }
 // u can delete director has movies
+
+// using fetch.eager becauee the connection stoped
 @Override
 @Transactional
 public void delete(Long id) {
@@ -87,6 +92,17 @@ public void delete(Long id) {
         return directorRepository.findByFirstNameContainingIgnoreCase(firstName)
                 .stream()
                 .map(directorMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MovieDTO> findMoviesByDirector(Long directorId) {
+        Director director = directorRepository.findByIdWithMovies(directorId)
+                .orElseThrow(() -> new RuntimeException("Director not found"));
+
+        return director.getMovieList()
+                .stream()
+                .map(movieMapper::toDTO)
                 .collect(Collectors.toList());
     }
 

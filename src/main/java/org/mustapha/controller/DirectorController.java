@@ -2,6 +2,7 @@ package org.mustapha.controller;
 
 import jakarta.validation.Valid;
 import org.mustapha.dto.DirectorDTO;
+import org.mustapha.dto.MovieDTO;
 import org.mustapha.service.DirectorService;
 import org.mustapha.utilis.InputValidation;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,12 @@ public class DirectorController {
 
         List<DirectorDTO> directors = directorService.searchByFirstName(firstName);
         return ResponseEntity.ok(directors);
+    }
+
+    @GetMapping("/{id}/movies")
+    public ResponseEntity<List<MovieDTO>> getMoviesByDirector(@PathVariable("id") Long directorId) {
+        List<MovieDTO> movies = directorService.findMoviesByDirector(directorId);
+        return ResponseEntity.ok(movies);
     }
 
 }
